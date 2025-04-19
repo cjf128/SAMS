@@ -7,22 +7,22 @@ class FileWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setMinimumWidth(250)
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #2b2c2e;
-                font-family: Arial;
-                font-size: 20px;
-            }
-            QTreeView {
-                border: 2px solid #eeeeee;
-                border-radius: 10px;
-                background-color: #2b2c2e;
-                color: #dfe1e5;
-            }
-            QTreeView::item:selected {
-                background-color: #4a4b4d;
-            }
-        """)
+        # self.setStyleSheet("""
+        #     QWidget {
+        #         background-color: #2b2c2e;
+        #         font-family: Arial;
+        #         font-size: 20px;
+        #     }
+        #     QTreeView {
+        #         border: 2px solid #eeeeee;
+        #         border-radius: 10px;
+        #         background-color: #2b2c2e;
+        #         color: #dfe1e5;
+        #     }
+        #     QTreeView::item:selected {
+        #         background-color: #4a4b4d;
+        #     }
+        # """)
         self.initUI()
 
     def initUI(self):

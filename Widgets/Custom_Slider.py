@@ -11,60 +11,60 @@ class CustomSlider(QWidget):
         self.maximum = maximum
         self.type = type
         # 设置样式
-        self.setStyleSheet("""
-                    QSpinBox, QDoubleSpinBox {
-                        background-color: #2b2c2e;
-                        color: #dfe1e5;
-                        border: 1px solid #3a3b3d;
-                        border-radius: 4px;
-                        padding: 2px;
-                    }
-
-                    QSpinBox::up-button, QDoubleSpinBox::up-button {
-                        width: 5px;
-                        border-width: 1px;
-                    }
-
-                    QSpinBox::down-button, QDoubleSpinBox::down-button {
-                        width: 5px;
-                        border-width: 1px;
-                    }
-                """)
+        # self.setStyleSheet("""
+        #             QSpinBox, QDoubleSpinBox {
+        #                 background-color: #2b2c2e;
+        #                 color: #dfe1e5;
+        #                 border: 1px solid #3a3b3d;
+        #                 border-radius: 4px;
+        #                 padding: 2px;
+        #             }
+        #
+        #             QSpinBox::up-button, QDoubleSpinBox::up-button {
+        #                 width: 5px;
+        #                 border-width: 1px;
+        #             }
+        #
+        #             QSpinBox::down-button, QDoubleSpinBox::down-button {
+        #                 width: 5px;
+        #                 border-width: 1px;
+        #             }
+        #         """)
 
         self.initUI()
 
     def initUI(self):
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.setStyleSheet("""
-            QSlider::groove {
-                height: 8px;
-                margin: 2px;
-                border-radius: 8px;
-            }
-
-            QSlider::handle {
-                background: #dfe1e5;
-                border: 1px solid #1e1f22;
-                width: 18px;
-                height: 18px;
-                margin: -5px 0; 
-                border-radius: 9px;
-            }
-
-            QSlider::sub-page {
-                background: #2b2d30;
-                border: 1px solid #999999;
-                height: 8px;
-                border-radius: 4px;
-            }
-
-            QSlider::add-page {
-                background: #dfe1e5;
-                border: 1px solid #999999;
-                height: 8px;
-                border-radius: 4px;
-            }
-        """)
+        # self.slider.setStyleSheet("""
+        #     QSlider::groove {
+        #         height: 8px;
+        #         margin: 2px;
+        #         border-radius: 8px;
+        #     }
+        #
+        #     QSlider::handle {
+        #         background: #dfe1e5;
+        #         border: 1px solid #1e1f22;
+        #         width: 18px;
+        #         height: 18px;
+        #         margin: -5px 0;
+        #         border-radius: 9px;
+        #     }
+        #
+        #     QSlider::sub-page {
+        #         background: #000000;
+        #         border: 1px solid #999999;
+        #         height: 8px;
+        #         border-radius: 4px;
+        #     }
+        #
+        #     QSlider::add-page {
+        #         background: #dfe1e5;
+        #         border: 1px solid #999999;
+        #         height: 8px;
+        #         border-radius: 4px;
+        #     }
+        # """)
         self.slider.setMinimum(self.minimum)
         self.slider.setMaximum(self.maximum)
 

@@ -15,42 +15,42 @@ class Sidebar(QGroupBox):
     def initUI(self):
         layout = QVBoxLayout()
         layout.setContentsMargins(2, 2, 2, 2)
-        self.setStyleSheet("""
-                    QTabWidget::pane { 
-                        border-top: 2px solid #C2C2C2;
-                    }
-                    QTabWidget::tab-bar {
-                        left: 5px; 
-                    }
-                    QTabBar::tab {
-                        background: #333; 
-                        color: #dfe1e5; 
-                        border: 1px solid #444; 
-                        border-bottom-color: #444;  
-                        border-top-left-radius: 4px;
-                        border-top-right-radius: 4px;
-                        min-width: 8ex;
-                        padding: 8px;
-                    }
-                    QTabBar::tab:selected, QTabBar::tab:hover {
-                        background: #555;
-                    }
-                    QTabBar::tab:selected {
-                        border-color: #777;
-                        border-bottom-color: #555;
-                    }
-                    QComboBox {
-                        border: 1px solid #ffffff;
-                        border-radius: 5px;
-                        padding: 5px;
-                        color: #dfe1e5;
-                        font-size: 18px;
-                    }
-                    QComboBox QAbstractItemView {
-                        border: 1px solid gray;
-                        selection-background-color: #2e436e; 
-                    }
-                    """)
+        # self.setStyleSheet("""
+        #             QTabWidget::pane {
+        #                 border-top: 2px solid #C2C2C2;
+        #             }
+        #             QTabWidget::tab-bar {
+        #                 left: 5px;
+        #             }
+        #             QTabBar::tab {
+        #                 background: #333;
+        #                 color: #dfe1e5;
+        #                 border: 1px solid #444;
+        #                 border-bottom-color: #444;
+        #                 border-top-left-radius: 4px;
+        #                 border-top-right-radius: 4px;
+        #                 min-width: 8ex;
+        #                 padding: 8px;
+        #             }
+        #             QTabBar::tab:selected, QTabBar::tab:hover {
+        #                 background: #555;
+        #             }
+        #             QTabBar::tab:selected {
+        #                 border-color: #777;
+        #                 border-bottom-color: #555;
+        #             }
+        #             QComboBox {
+        #                 border: 1px solid #ffffff;
+        #                 border-radius: 5px;
+        #                 padding: 5px;
+        #                 color: #dfe1e5;
+        #                 font-size: 18px;
+        #             }
+        #             QComboBox QAbstractItemView {
+        #                 border: 1px solid gray;
+        #                 selection-background-color: #2e436e;
+        #             }
+        #             """)
 
         # 创建一个文件控件
         self.file_widget = FileWidget()
@@ -63,7 +63,7 @@ class Sidebar(QGroupBox):
         # 创建tab管理信息栏
         self.tab_widget = QTabWidget(self)
         self.tab_widget.setMinimumWidth(250)
-        self.tab_widget.setStyleSheet("background-color: #2b2c2e;color: #dfe1e5")
+        # self.tab_widget.setStyleSheet("background-color: #2b2c2e;color: #dfe1e5")
 
         self.tab1 = QWidget()
         self.tab2 = QWidget()

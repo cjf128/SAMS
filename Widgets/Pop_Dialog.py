@@ -15,7 +15,7 @@ class pop_dialog(QDialog):
         self.stop_signal = False
 
         self.setWindowIcon(QIcon("my_icon.ico"))
-        self.setStyleSheet("background-color: #393e46; color: #eeeeee")
+        # self.setStyleSheet("background-color: #393e46; color: #eeeeee")
         self.intUI()
 
     def intUI(self):
@@ -33,19 +33,19 @@ class pop_dialog(QDialog):
         self.progress_bar.setRange(0, 0)
         layout.addWidget(self.progress_bar)
 
-        self.progress_bar.setStyleSheet("""
-                    QProgressBar {
-                        border: 2px solid #bbb;
-                        border-radius: 5px;
-                        background: #f3f3f3;
-                        height: 20px;
-                        width: 250px;
-                    }
-                    QProgressBar::chunk {
-                        background: #00adb5;
-                        width: 20px;
-                    }
-                """)
+        # self.progress_bar.setStyleSheet("""
+        #             QProgressBar {
+        #                 border: 2px solid #bbb;
+        #                 border-radius: 5px;
+        #                 background: #f3f3f3;
+        #                 height: 20px;
+        #                 width: 250px;
+        #             }
+        #             QProgressBar::chunk {
+        #                 background: #00adb5;
+        #                 width: 20px;
+        #             }
+        #         """)
 
         self.setLayout(layout)
 
