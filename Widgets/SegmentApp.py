@@ -71,25 +71,6 @@ class SegmentApp(QMainWindow):
         self.resize(1200, 900)
         self.setWindowTitle("MRI图像半自动分割软件v1.0.0")
         self.setWindowIcon(QIcon("my_icon.ico"))
-        # self.setStyleSheet("""
-        #             QWidget {
-        #                 background-color: #1e1f21;
-        #                 color: #dfe1e5;
-        #             }
-        #             QToolTip {
-        #                 color: black;
-        #                 border: 1px solid black;
-        #             }
-        #             QGroupBox {
-        #                 border: 2px solid #2b2c2e;
-        #                 border-radius: 5px;
-        #                 background-color: #2b2c2e;
-        #             }
-        #             QToolBar {
-        #                 background-color: #2b2c2e;
-        #                 border: none;
-        #             }
-        #         """)
 
         self.config_tools()
         self.config_Layout()
@@ -103,21 +84,8 @@ class SegmentApp(QMainWindow):
         self.tool_bar = QToolBar(self)
         self.tool_bar.setMovable(False)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.tool_bar)
-        # self.tool_bar.setStyleSheet("""
-        #                     QToolButton {
-        #                         background-color: #2b2c2e;
-        #                     }
-        #                     QToolButton:checked {
-        #                         background-color: #00adb5;
-        #                     }
-        #                     QToolButton:pressed {
-        #                          background-color: #00adb5;
-        #                     }
-        #                     QToolButton {
-        #                         border-radius: 8px;
-        #                     }
-        # """)
-        self.tool_bar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
+
+        self.tool_bar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.tool_bar.setIconSize(QSize(28, 28))
 
         self.load_action = QAction(QIcon('my_svg/folder-add-outline.svg'), '导入', self)
@@ -222,7 +190,6 @@ class SegmentApp(QMainWindow):
         self.down_left_text = QLabel()
         self.down_left_text.setFixedHeight(18)
         self.down_left_text.setAlignment(Qt.AlignLeft)
-        # self.down_left_text.setStyleSheet("color: #00adb5;")
 
         down_layout = QHBoxLayout()
         down_layout.addWidget(self.down_left_text)
@@ -249,11 +216,6 @@ class SegmentApp(QMainWindow):
         main_widget.setLayout(main_layout)
 
         self.statusbar = QMainWindow.statusBar(self)
-        # self.statusbar.setStyleSheet("""
-        #                 border: 2px solid #2b2c2e;
-        #                 background-color: #2b2c2e;
-        #                 font-size: 16px
-        # """)
         self.statusbar.showMessage("Ready")
 
     def config_connectAction(self):
@@ -1085,7 +1047,7 @@ class SegmentApp(QMainWindow):
                 new_im = new_ct
 
         if self.image_state == 3:
-            new_im = cv2.addWeighted(new_ct, 1 - self.alpha, new_pre, self.alpha, 0)
+            new_im = cv2.addWeighted(new_ct, 1, new_pre, self.alpha, 0)
 
         height, width, channels = new_im.shape
         bytes_per_line = channels * width

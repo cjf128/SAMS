@@ -1,9 +1,10 @@
 import sys
 
 import numpy as np
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import QPointF, Qt, QEvent, QRectF
+from PyQt5.QtGui import QColor, QTransform, QPen, QMouseEvent
+from PyQt5.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsPathItem, QGraphicsRectItem, QGraphicsScene, \
+    QApplication
 
 
 class ImageViewer(QGraphicsView):
