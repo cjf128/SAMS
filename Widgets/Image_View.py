@@ -90,6 +90,8 @@ class ImageViewer(QGraphicsView):
         self.index = 0
 
     def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+
         if event.button() == Qt.LeftButton:
             self.press = True
             self.last_mouse_position = event.pos()
@@ -174,16 +176,11 @@ class ImageViewer(QGraphicsView):
                 self.draw_state = 0
                 self.drawing = True
 
-        if self.parent:
-            parent_event = QMouseEvent(
-                self.press,
-                QEvent.MouseButtonPress,
-            )
-            QApplication.sendEvent(self.parent, parent_event)
-
-        super().mousePressEvent(event)
+        event.ignore()
 
     def mouseMoveEvent(self, event):
+        super().mouseMoveEvent(event)
+
         self.setMouseTracking(True)
         self.delta = event.pos() - self.last_mouse_position
         self.last_mouse_position = event.pos()
@@ -214,16 +211,11 @@ class ImageViewer(QGraphicsView):
                 elif self.draw_state == 0:
                     self.eraser_list.append(point)
 
-        if self.parent:
-            parent_event = QMouseEvent(
-                self.press,
-                QEvent.MouseButtonPress,
-            )
-            QApplication.sendEvent(self.parent, parent_event)
-
-        super().mousePressEvent(event)
+        event.ignore()
 
     def mouseReleaseEvent(self, event):
+        super().mouseReleaseEvent(event)
+
         if event.button() == Qt.LeftButton:
             self.press = False
             self.dragging = False
@@ -245,14 +237,7 @@ class ImageViewer(QGraphicsView):
 
             self.drawing = False
 
-        if self.parent:
-            parent_event = QMouseEvent(
-                self.press,
-                QEvent.MouseButtonPress,
-            )
-            QApplication.sendEvent(self.parent, parent_event)
-
-        super().mousePressEvent(event)
+        event.ignore()
 
     def wheelEvent(self, event):
         factor = 1.15

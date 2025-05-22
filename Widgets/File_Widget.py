@@ -1,11 +1,11 @@
 import sys
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFileSystemModel, QTreeView, QApplication
+from PyQt5.QtCore import QDir
 
 class FileWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setMinimumWidth(250)
         self.initUI()
 
@@ -13,9 +13,9 @@ class FileWidget(QWidget):
         layout = QVBoxLayout()
 
         # 创建一个文件系统模型
-        self.model = QFileSystemModel()
+        self.model = QFileSystemModel(self)
         self.model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot)  # 显示文件夹和文件的名称和类型，排除特殊条目
-        self.tree_view = QTreeView()
+        self.tree_view = QTreeView(self)
         self.tree_view.setModel(self.model)
 
         # 隐藏大小和修改日期列

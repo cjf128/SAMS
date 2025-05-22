@@ -1,6 +1,7 @@
 import sys
 
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QGroupBox, QVBoxLayout, QTabWidget, QWidget, QLabel, QSpacerItem, QSizePolicy, QComboBox, \
+    QApplication
 
 from Widgets.Custom_Slider import CustomSlider
 from Widgets.File_Widget import FileWidget

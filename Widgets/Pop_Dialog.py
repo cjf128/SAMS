@@ -1,10 +1,8 @@
 import sys
 
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QPushButton, QProgressBar, QLabel, QSizePolicy, \
-    QDesktopWidget, QMessageBox, QDialog
-
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QProgressBar, QLabel, QSizePolicy, QMessageBox, QDialog
 
 class pop_dialog(QDialog):
 
@@ -28,8 +26,9 @@ class pop_dialog(QDialog):
         self.label.setSizePolicy(QSizePolicy.Expanding, 20)
         layout.addWidget(self.label)
 
-        self.progress_bar = QProgressBar()
+        self.progress_bar = QProgressBar(self)
         self.progress_bar.setRange(0, 0)
+        self.progress_bar.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.progress_bar)
 
         self.setLayout(layout)

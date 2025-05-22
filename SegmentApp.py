@@ -9,9 +9,10 @@ import cv2
 import torch
 import numpy as np
 import vtk
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal, QPoint, Qt, QSize, pyqtSlot
+from PyQt5.QtGui import QIcon, QKeySequence, QGuiApplication, QPixmap
+from PyQt5.QtWidgets import QMainWindow, QToolBar, QAction, QHBoxLayout, QLabel, QVBoxLayout, QStackedWidget, \
+    QToolButton, QSizePolicy, QSplitter, QWidget, QFileDialog, QMessageBox, QApplication
 import segment_anything
 import mobile_sam
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
@@ -25,10 +26,10 @@ from Widgets.Side_Bar import Sidebar
 
 
 class SegmentApp(QMainWindow):
-    FINSH_CANCELLED = pyqtSignal()
+    FINSH_CANCELLED = pyqtSignal(int)
 
-    def __init__(self):
-        super(SegmentApp, self).__init__()
+    def __init__(self, parent=None):
+        super(SegmentApp, self).__init__(parent)
 
         self.num = -1
         self.alpha = 0.3
@@ -59,7 +60,7 @@ class SegmentApp(QMainWindow):
         self._dragPosition = QPoint()
         self.filepath = ''
 
-        self.sam_checkpoint = "model/sam_vit_b_01ec64.pth"
+        self.sam_checkpoint = "./model/sam_vit_b_01ec64.pth"
         self.model_type = "vit_b"
         self.device = "cuda" if torch.cuda.is_available() else "cpu"  # 设备类型
 
@@ -75,7 +76,6 @@ class SegmentApp(QMainWindow):
         self.config_tools()
         self.config_Layout()
         self.config_connectAction()
-        self.center()
 
     def config_tools(self):
         """
@@ -88,55 +88,55 @@ class SegmentApp(QMainWindow):
         self.tool_bar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.tool_bar.setIconSize(QSize(28, 28))
 
-        self.load_action = QAction(QIcon('my_svg/folder-add-outline.svg'), '导入', self)
+        self.load_action = QAction(QIcon('./my_svg/folder-add-outline.svg'), '导入', self)
         self.load_action.setShortcut(QKeySequence('Ctrl+O'))
         self.tool_bar.addAction(self.load_action)
 
-        self.save_action = QAction(QIcon('my_svg/save-outline.svg'), "保存", self)
+        self.save_action = QAction(QIcon('./my_svg/save-outline.svg'), "保存", self)
         self.save_action.setShortcut(QKeySequence('Ctrl+S'))
         self.tool_bar.addAction(self.save_action)
 
-        self.side_action = QAction(QIcon('my_svg/layout-outline.svg'), "侧栏", self)
+        self.side_action = QAction(QIcon('./my_svg/layout-outline.svg'), "侧栏", self)
         self.tool_bar.addAction(self.side_action)
 
-        self.move_action = QAction(QIcon('my_svg/plus-outline.svg'), "翻图", self)
+        self.move_action = QAction(QIcon('./my_svg/plus-outline.svg'), "翻图", self)
         self.move_action.setCheckable(True)
         self.move_action.setChecked(True)
         self.move_action.setShortcut(QKeySequence('Ctrl+M'))
         self.tool_bar.addAction(self.move_action)
 
-        self.win_action = QAction(QIcon("my_svg/smiling-face-outline.svg"), "调窗", self)
+        self.win_action = QAction(QIcon("./my_svg/smiling-face-outline.svg"), "调窗", self)
         self.win_action.setCheckable(True)
         self.win_action.setShortcut(QKeySequence("Ctrl+T"))
         self.tool_bar.addAction(self.win_action)
 
-        self.line_action = QAction(QIcon('my_svg/radio-button-off-outline.svg'), '画笔', self)
+        self.line_action = QAction(QIcon('./my_svg/radio-button-off-outline.svg'), '画笔', self)
         self.line_action.setCheckable(True)
         self.line_action.setShortcut(QKeySequence('Ctrl+W'))
         self.tool_bar.addAction(self.line_action)
 
-        self.frame_action = QAction(QIcon('my_svg/square-outline.svg'), 'SAM', self)
+        self.frame_action = QAction(QIcon('./my_svg/square-outline.svg'), 'SAM', self)
         self.frame_action.setCheckable(True)
         self.frame_action.setShortcut(QKeySequence('Ctrl+F'))
         self.tool_bar.addAction(self.frame_action)
 
-        self.operation_action = QAction(QIcon('my_svg/play-circle-outline.svg'), "运算", self)
+        self.operation_action = QAction(QIcon('./my_svg/play-circle-outline.svg'), "运算", self)
         self.operation_action.setShortcut(QKeySequence('Ctrl+P'))
         self.tool_bar.addAction(self.operation_action)
 
-        self.vtk_action = QAction(QIcon('my_svg/layers-outline.svg'), "3D显示", self)
+        self.vtk_action = QAction(QIcon('./my_svg/layers-outline.svg'), "3D显示", self)
         self.vtk_action.setCheckable(True)
         self.tool_bar.addAction(self.vtk_action)
 
-        self.switch_action = QAction(QIcon('my_svg/copy-outline.svg'), '转换', self)
+        self.switch_action = QAction(QIcon('./my_svg/copy-outline.svg'), '转换', self)
         self.switch_action.setShortcut(QKeySequence('Ctrl+G'))
         self.tool_bar.addAction(self.switch_action)
 
-        self.reset_action = QAction(QIcon('my_svg/refresh-outline.svg'), '复位', self)
+        self.reset_action = QAction(QIcon('./my_svg/refresh-outline.svg'), '复位', self)
         self.reset_action.setShortcut(QKeySequence('Ctrl+B'))
         self.tool_bar.addAction(self.reset_action)
 
-        self.redo_action = QAction(QIcon('my_svg/sync-outline.svg'), "重做", self)
+        self.redo_action = QAction(QIcon('./my_svg/sync-outline.svg'), "重做", self)
         self.redo_action.setShortcut(QKeySequence('Ctrl+R'))
         self.tool_bar.addAction(self.redo_action)
 
@@ -155,10 +155,10 @@ class SegmentApp(QMainWindow):
         self.sidebar.win_level_slider.spin_box.setValue(self.win_level)
         self.sidebar.alpha_slider.spin_box.setValue(self.alpha)
 
-        self.image = ImageViewer()
+        self.image = ImageViewer(self)
         self.vtk_image = QVTKRenderWindowInteractor()
 
-        self.stacked_widget = QStackedWidget()
+        self.stacked_widget = QStackedWidget(self)
         self.stacked_widget.addWidget(self.image)
         self.stacked_widget.addWidget(self.vtk_image)
         self.stacked_widget.setCurrentWidget(self.image)
@@ -167,12 +167,12 @@ class SegmentApp(QMainWindow):
         self.up_left_text.setFixedHeight(25)
         self.update_text()
 
-        anti_rotate = QAction(QIcon('my_svg/corner-up-left-outline.svg'), '逆时针旋转', self)  # 图标路径
+        anti_rotate = QAction(QIcon('./my_svg/corner-up-left-outline.svg'), '逆时针旋转', self)  # 图标路径
         self.anti_rotate_button = QToolButton()
         self.anti_rotate_button.setDefaultAction(anti_rotate)
         self.anti_rotate_button.setToolButtonStyle(Qt.ToolButtonIconOnly)
 
-        clock_rotate = QAction(QIcon('my_svg/corner-up-right-outline.svg'), '顺时针旋转', self)  # 图标路径
+        clock_rotate = QAction(QIcon('./my_svg/corner-up-right-outline.svg'), '顺时针旋转', self)  # 图标路径
         self.clock_rotate_button = QToolButton()
         self.clock_rotate_button.setDefaultAction(clock_rotate)
         self.clock_rotate_button.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -252,15 +252,6 @@ class SegmentApp(QMainWindow):
         self.anti_rotate_button.triggered.connect(self.anti_rotate)
         self.clock_rotate_button.triggered.connect(self.clock_rotate)
 
-    def center(self):
-        """
-        初始窗口中心化
-        """
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
-
     def reset_slot(self):
         """
         复位处理
@@ -328,7 +319,7 @@ class SegmentApp(QMainWindow):
         elif index:
             file_path = self.sidebar.file_widget.model.filePath(index)
 
-        if file_path != '' and file_path.endswith('.nii.gz'):
+        if file_path != '' and (file_path.endswith('.nii') or file_path.endswith('.nii.gz')):
             folder_path = os.path.dirname(file_path)
             self.sidebar.file_widget.updateFileList(folder_path)
 
@@ -392,7 +383,8 @@ class SegmentApp(QMainWindow):
             file_, ok = QFileDialog.getSaveFileName(self,
                                                     "文件保存",
                                                     self.filepath,
-                                                    "Text Files (*.nii);;All Files (*)")
+                                                    "NiFTI(*.nii.gz);;All Files (*)")
+
 
             if file_ != "":
                 image = copy.deepcopy(self.pre_all)
@@ -726,7 +718,8 @@ class SegmentApp(QMainWindow):
             operation_thread = threading.Thread(target=self.calculation)
             operation_thread.start()
 
-    def finish_work(self):
+    @pyqtSlot(int)
+    def finish_work(self, result:int):
         if self.image.segment_state == 1:
             self.image.index = 0
             self.image.segment_start = []
@@ -770,7 +763,7 @@ class SegmentApp(QMainWindow):
 
             self.num = self.number
             self.pre_all[:, :, self.number] += masks
-            self.FINSH_CANCELLED.emit()
+            self.FINSH_CANCELLED.emit(1)
 
         elif self.image.segment_state == 1:
             def find_xy_for_z(p1, p2, z_values):
@@ -882,7 +875,7 @@ class SegmentApp(QMainWindow):
                     # masks[masks == 1] = 1
                     self.pre_all[:, :, index] += masks
 
-                self.FINSH_CANCELLED.emit()
+                self.FINSH_CANCELLED.emit(1)
 
     def update_image(self):
         """
@@ -940,7 +933,7 @@ class SegmentApp(QMainWindow):
         self.setMouseTracking(True)
 
         if self.exist:
-            if self.image.press and self.win_action.isChecked():
+            if self.win_action.isChecked() and self.image.press:
                 delta = self.image.delta
 
                 self.win_width = np.clip(self.win_width, 0, 2000)
@@ -953,6 +946,7 @@ class SegmentApp(QMainWindow):
 
             if self.image.press:
                 self.down_right_text.setText(f"x:{self.image.point_list[0]}; y:{self.image.point_list[1]}")
+                event.accept()
 
         if self.press and not self.image.press:
             self.move(event.globalPos() - self._dragPosition)
@@ -1051,6 +1045,7 @@ class SegmentApp(QMainWindow):
 
         height, width, channels = new_im.shape
         bytes_per_line = channels * width
+        from PyQt5.QtGui import QImage
         pre_image = QImage(new_im.data, width, height, bytes_per_line, QImage.Format_RGB888)
         pre_image = QPixmap.fromImage(pre_image)
         return pre_image
