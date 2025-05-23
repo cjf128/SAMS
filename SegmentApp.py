@@ -1,7 +1,7 @@
-import copy
 import os
-import re
 import sys
+import copy
+import re
 import threading
 
 import SimpleITK as sitk
@@ -17,16 +17,13 @@ import segment_anything
 import mobile_sam
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
-import os
-import sys
-
 from Widgets.Image_View import ImageViewer
 from Widgets.Pop_Dialog import pop_dialog
 from Widgets.Side_Bar import Sidebar
 
 
 class SegmentApp(QMainWindow):
-    FINSH_CANCELLED = pyqtSignal(int)
+    FINSH_CANCELLED = pyqtSignal()
 
     def __init__(self, parent=None):
         super(SegmentApp, self).__init__(parent)
@@ -715,11 +712,12 @@ class SegmentApp(QMainWindow):
             self.pop_widget = pop_dialog()
             self.pop_widget.show()
             self.setDisabled(True)
-            operation_thread = threading.Thread(target=self.calculation)
-            operation_thread.start()
+            self.operation_thread = threading.Thread(target=self.calculation)
+            self.operation_thread.daemon = True
+            self.operation_thread.start()
 
-    @pyqtSlot(int)
-    def finish_work(self, result:int):
+    def finish_work(self):
+        self.operation_thread.join()
         if self.image.segment_state == 1:
             self.image.index = 0
             self.image.segment_start = []
@@ -763,7 +761,7 @@ class SegmentApp(QMainWindow):
 
             self.num = self.number
             self.pre_all[:, :, self.number] += masks
-            self.FINSH_CANCELLED.emit(1)
+            self.FINSH_CANCELLED.emit()
 
         elif self.image.segment_state == 1:
             def find_xy_for_z(p1, p2, z_values):
@@ -872,10 +870,9 @@ class SegmentApp(QMainWindow):
                     self.SamPredictor.set_image(current_slice)
                     masks, _, _ = self.SamPredictor.predict(box=input_box, multimask_output=False)
                     masks = masks[0, :, :].astype(np.uint8)
-                    # masks[masks == 1] = 1
                     self.pre_all[:, :, index] += masks
 
-                self.FINSH_CANCELLED.emit(1)
+            self.FINSH_CANCELLED.emit()
 
     def update_image(self):
         """

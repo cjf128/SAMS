@@ -64,7 +64,7 @@ class Sidebar(QGroupBox):
         self.adjust_layout.addItem(self.spacer)
 
         self.image_label = QLabel("图像选择：")
-        self.image_combox = QComboBox()
+        self.image_combox = QComboBox(self)
         self.image_combox.addItem("病人原图+分割图像")
         self.image_combox.addItem("病人原图")
         self.image_combox.addItem("分割图像")
@@ -74,7 +74,7 @@ class Sidebar(QGroupBox):
         self.choose_layout.addLayout(self.image_layout)
 
         self.type_label = QLabel("类型选择：")
-        self.type_combox = QComboBox()
+        self.type_combox = QComboBox(self)
         self.type_combox.addItem("单层分割")
         self.type_combox.addItem("三层插值分割")
         self.type_layout = QVBoxLayout()
@@ -83,7 +83,7 @@ class Sidebar(QGroupBox):
         self.choose_layout.addLayout(self.type_layout)
 
         self.accuracy_label = QLabel("模型选择：")
-        self.accuracy_combox = QComboBox()
+        self.accuracy_combox = QComboBox(self)
         self.accuracy_combox.addItem("SAM1.0（vit_b）")
         self.accuracy_combox.addItem("MobileSAM（vit_t）")
         self.accuracy_layout = QVBoxLayout()
