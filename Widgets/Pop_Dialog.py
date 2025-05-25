@@ -1,8 +1,8 @@
 import sys
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QProgressBar, QLabel, QSizePolicy, QMessageBox, QDialog
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QApplication, QVBoxLayout, QProgressBar, QLabel, QSizePolicy, QMessageBox, QDialog
 
 class pop_dialog(QDialog):
 
@@ -23,7 +23,7 @@ class pop_dialog(QDialog):
 
         self.label = QLabel("运算中，请稍等...")
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setSizePolicy(QSizePolicy.Expanding, 20)
+        self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layout.addWidget(self.label)
 
         self.progress_bar = QProgressBar(self)

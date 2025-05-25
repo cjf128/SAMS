@@ -1,7 +1,7 @@
 import sys
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QSlider, QSpinBox, QDoubleSpinBox, QHBoxLayout, QApplication
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QSlider, QSpinBox, QDoubleSpinBox, QHBoxLayout, QApplication
 
 
 class CustomSlider(QWidget):

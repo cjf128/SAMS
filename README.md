@@ -1,11 +1,11 @@
 # [SAMS] - 基于Segment Anything Model的医学图像交互式标注软件
 
-[![PyQt5](https://img.shields.io/badge/PyQt-5.15+-green.svg)](https://pypi.org/project/PyQt5/)
+[![PySide2](https://img.shields.io/badge/PyQt-5.15+-green.svg)](https://pypi.org/project/PySide2/)
 [![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-GPLv3-red.svg)](LICENSE)
 
 ## 项目简介
-SAMS是一个基于PyQt5框架开发的跨平台桌面应用程序，专为处理nii.gz格式的医学图像设计。该软件提供了强大的功能来显示、调整窗口级别（调窗）和对医学图像进行标注。结合Segment Anything Model (SAM) 和 MobileSAM 的强大能力，用户可以实现高精度的自动分割与手动精细调整相结合的高效标注流程。
+SAMS是一个基于PySide2框架开发的跨平台桌面应用程序，专为处理nii.gz格式的医学图像设计。该软件提供了强大的功能来显示、调整窗口级别（调窗）和对医学图像进行标注。结合Segment Anything Model (SAM) 和 MobileSAM 的强大能力，用户可以实现高精度的自动分割与手动精细调整相结合的高效标注流程。
 
 **功能特性**  
 ✅ 图形界面交互  
@@ -19,7 +19,7 @@ SAMS是一个基于PyQt5框架开发的跨平台桌面应用程序，专为处�
 ### 环境要求
 确保您的系统满足以下条件：
 - Python 3.7+
-- PyQt5 >=5.15
+- PySide2 >=5.15
 - 推荐使用开发工具：PyCharm 或 VSCode 配合 Qt Designer 使用
 
 ### 快速开始

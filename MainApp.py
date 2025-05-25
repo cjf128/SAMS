@@ -9,12 +9,14 @@ import cv2
 import torch
 import numpy as np
 import vtk
-from PyQt5.QtCore import pyqtSignal, QPoint, Qt, QSize, pyqtSlot
-from PyQt5.QtGui import QIcon, QKeySequence, QGuiApplication, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QToolBar, QAction, QHBoxLayout, QLabel, QVBoxLayout, QStackedWidget, \
+from PySide2.QtCore import Signal, QPoint, Qt, QSize
+from PySide2.QtGui import QIcon, QKeySequence, QGuiApplication, QPixmap
+from PySide2.QtWidgets import QMainWindow, QToolBar, QAction, QHBoxLayout, QLabel, QVBoxLayout, QStackedWidget, \
     QToolButton, QSizePolicy, QSplitter, QWidget, QFileDialog, QMessageBox, QApplication
 import segment_anything
+from segment_anything import sam_model_registry as sam_model_registry_sam
 import mobile_sam
+from mobile_sam import sam_model_registry as sam_model_registry_mobile
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
 from Widgets.Image_View import ImageViewer
@@ -23,7 +25,7 @@ from Widgets.Side_Bar import Sidebar
 
 
 class SegmentApp(QMainWindow):
-    FINSH_CANCELLED = pyqtSignal()
+    FINSH_CANCELLED = Signal()
 
     def __init__(self, parent=None):
         super(SegmentApp, self).__init__(parent)
@@ -62,12 +64,12 @@ class SegmentApp(QMainWindow):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"  # 设备类型
 
         # 加载模型并设置预测器
-        sam = segment_anything.sam_model_registry[self.model_type](checkpoint=self.sam_checkpoint)  # 加载模型
+        sam = sam_model_registry_sam[self.model_type](checkpoint=self.sam_checkpoint)  # 加载模型
         sam.to(device=self.device)  # 将模型加载到指定设备
         self.SamPredictor = segment_anything.SamPredictor(sam)  # 设置 3D 模型预测器
 
         self.resize(1200, 900)
-        self.setWindowTitle("MRI图像半自动分割软件v1.0.0")
+        self.setWindowTitle("MRI图像单器官半自动分割软件v2.1.0")
         self.setWindowIcon(QIcon("my_icon.ico"))
 
         self.config_tools()
@@ -471,7 +473,7 @@ class SegmentApp(QMainWindow):
             self.model_type = 'vit_b'
             self.sam_checkpoint = "model/sam_vit_b_01ec64.pth"
 
-            sam = segment_anything.sam_model_registry[self.model_type](checkpoint=self.sam_checkpoint)
+            sam = sam_model_registry_sam[self.model_type](checkpoint=self.sam_checkpoint)
             sam.to(device=self.device)
             self.SamPredictor = segment_anything.SamPredictor(sam)
 
@@ -479,7 +481,7 @@ class SegmentApp(QMainWindow):
             self.model_type = 'vit_t'
             self.sam_checkpoint = "model/mobile_sam.pt"
 
-            sam = mobile_sam.sam_model_registry[self.model_type](checkpoint=self.sam_checkpoint)
+            sam = sam_model_registry_mobile[self.model_type](checkpoint=self.sam_checkpoint)
             sam.to(device=self.device)
             self.SamPredictor = mobile_sam.SamPredictor(sam)
 
@@ -712,12 +714,11 @@ class SegmentApp(QMainWindow):
             self.pop_widget = pop_dialog()
             self.pop_widget.show()
             self.setDisabled(True)
-            self.operation_thread = threading.Thread(target=self.calculation)
-            self.operation_thread.daemon = True
-            self.operation_thread.start()
+            operation_thread = threading.Thread(target=self.calculation)
+            operation_thread.daemon = True
+            operation_thread.start()
 
     def finish_work(self):
-        self.operation_thread.join()
         if self.image.segment_state == 1:
             self.image.index = 0
             self.image.segment_start = []
@@ -1042,7 +1043,7 @@ class SegmentApp(QMainWindow):
 
         height, width, channels = new_im.shape
         bytes_per_line = channels * width
-        from PyQt5.QtGui import QImage
+        from PySide2.QtGui import QImage
         pre_image = QImage(new_im.data, width, height, bytes_per_line, QImage.Format_RGB888)
         pre_image = QPixmap.fromImage(pre_image)
         return pre_image

@@ -1,9 +1,0 @@
-mobile_sam==1.0
-numpy==1.23.5
-opencv_python==4.11.0.86
-PyQt5>=5.15
-PyQt5_sip==12.12.0
-segment_anything==1.0
-SimpleITK==2.4.1
-torch==1.11.0+cu113
-vtk==9.4.1

@@ -1,9 +1,9 @@
 import sys
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QGuiApplication
-from PyQt5.QtWidgets import QApplication
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QGuiApplication
+from PySide2.QtWidgets import QApplication
 
-from SegmentApp import SegmentApp
+from MainApp import SegmentApp
 
 if __name__ == "__main__":
     QGuiApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

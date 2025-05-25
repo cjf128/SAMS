@@ -1,9 +1,9 @@
 import sys
 
 import numpy as np
-from PyQt5.QtCore import QPointF, Qt, QEvent, QRectF
-from PyQt5.QtGui import QColor, QTransform, QPen, QMouseEvent
-from PyQt5.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsPathItem, QGraphicsRectItem, QGraphicsScene, \
+from PySide2.QtCore import QPoint, Qt, QRectF
+from PySide2.QtGui import QColor, QTransform, QPen
+from PySide2.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsPathItem, QGraphicsRectItem, QGraphicsScene, \
     QApplication
 
 
@@ -35,9 +35,9 @@ class ImageViewer(QGraphicsView):
         self.path_item = QGraphicsPathItem()
         self.rect_item = QGraphicsRectItem()
 
-        self.start_point = QPointF()
-        self.end_point = QPointF()
-        self.last_mouse_position = QPointF()
+        self.start_point = QPoint()
+        self.end_point = QPoint()
+        self.last_mouse_position = QPoint()
 
         self.segment_start = []
         self.segment_end = []
