@@ -69,7 +69,7 @@ class SegmentApp(QMainWindow):
         self.SamPredictor = segment_anything.SamPredictor(sam)  # 设置 3D 模型预测器
 
         self.resize(1200, 900)
-        self.setWindowTitle("MRI图像单器官半自动分割软件v2.1.0")
+        self.setWindowTitle("MRI图像单器官半自动分割软件v3.0.0")
         self.setWindowIcon(QIcon("my_icon.ico"))
 
         self.config_tools()
