@@ -1,0 +1,6 @@
+example.nii.gz
+model/mobile_sam.pt
+model/sam_vit_b_01ec64.pth
+SAMS/
+.idea/
+*.pyc

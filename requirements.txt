@@ -1,0 +1,13 @@
+mobile_sam==1.0
+segment-anything==1.0
+numpy==1.23.5
+opencv-python==4.11.0.86
+pillow==11.2.1
+PySide2==5.15.2.1
+requests==2.32.3
+segment-anything==1.0
+SimpleITK==2.4.1
+timm==0.6.13
+torch==1.13.0+cpu
+torchvision==0.14.0+cpu
+vtk==9.4.1
