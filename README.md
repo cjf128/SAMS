@@ -18,7 +18,7 @@ SAMS是一个基于PySide2框架开发的跨平台桌面应用程序，专为处
 
 ### 环境要求
 确保您的系统满足以下条件：
-- Python 3.7+
+- Python 3.9+
 - PySide2 >=5.15
 - 推荐使用开发工具：PyCharm 或 VSCode 配合 Qt Designer 使用
 
@@ -31,15 +31,21 @@ git clone https://github.com/cjf128/SAMS.git
 cd SAMS
 
 # 创建并激活虚拟环境（以conda为例）
-conda create -n SAMS python=3.9
+conda create -n SAMS python=3.10
 conda activate SAMS
-
-# 安装依赖包
-pip install -r requirements.txt
 
 # 安装额外的SAM和MobileSAM依赖
 pip install git+https://github.com/facebookresearch/segment-anything.git
 pip install git+https://github.com/ChaoningZhang/MobileSAM.git
+
+# 如果有GPU，执行以下命令
+conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.7 -c pytorch -c nvidia
+
+# 否则执行以下命令
+conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 cpuonly -c pytorch
+
+# 安装依赖包
+pip install -r requirements.txt
 
 # 下载必要的模型配置文件，并将其放置在项目的model目录下
 
